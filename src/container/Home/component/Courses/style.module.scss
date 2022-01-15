@@ -1,0 +1,50 @@
+.courses {
+   width: 1280px;
+   margin: 15px auto 0;
+   border-radius: 5px;
+   background: #fff;
+   display: flex;
+   flex-direction: column;
+   .list {
+     list-style: none;  
+     margin: 0;
+     padding: 0;
+     display: flex;
+     flex-wrap: wrap;
+     padding-bottom: 10px;
+     .item {
+         width: 20%;
+         margin-top: 10px;
+         .img {
+             width: 240px;
+             height: 180px;
+             display: block;
+             margin: 0 auto;
+         }
+         .title {
+             font-size: 16px;
+             font-weight: normal;
+             padding: 0 10px;
+             margin: 0;
+             line-height: 32px;
+             white-space: nowrap;
+             overflow: hidden;
+             text-overflow: ellipsis;
+         }
+         .desc {
+             font-size: 14px;
+             line-height: 24px;
+             font-weight: normal;
+             margin: 0;
+             color: #333;
+             padding: 0 10px;
+            //  多行省略号
+             overflow: hidden;
+             text-overflow: ellipsis;
+             display: -webkit-box; // 作为弹性盒子伸缩
+             -webkit-box-orient: vertical; // 设置伸缩盒子的子元素排列方式 从上到下
+             -webkit-line-clamp: 4; // 设置行数
+         }
+     }
+   }
+}
