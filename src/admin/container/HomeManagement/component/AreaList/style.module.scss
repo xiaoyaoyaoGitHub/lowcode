@@ -13,5 +13,12 @@
         &:last-of-type {
             margin-bottom: 20px;
         }
+        .content {
+            flex: 1;
+        }
     }
+}
+
+.saveBtn {
+    margin-left: 24px;
 }
