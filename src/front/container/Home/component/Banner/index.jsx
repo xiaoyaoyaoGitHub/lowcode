@@ -1,6 +1,11 @@
 import style from "./style.module.scss";
 
 const Banner = () => {
+
+	const title = localStorage.getItem('title') || 'This is the title area'
+	const description = localStorage.getItem('description') || `This is the description area This is the description
+	area This is the description area This is the
+	description area This is the description area`
 	return (
 		<div className="wrapper">
 			<div className={style.banner}>
@@ -10,11 +15,9 @@ const Banner = () => {
 						className={style.avatar}
 						alt="avatar"
 					/>
-					<div className={style.title}>This is the title area</div>
+					<div className={style.title}>{title}</div>
 					<div className={style.description}>
-						This is the description area This is the description
-						area This is the description area This is the
-						description area This is the description area
+						{description}
 					</div>
 				</div>
 			</div>

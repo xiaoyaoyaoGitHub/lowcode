@@ -1,11 +1,11 @@
 import { Button } from "antd";
-import { useState } from "react";
+import { forwardRef, useState, useImperativeHandle } from "react";
 import styles from "./style.module.scss";
-import { parseJsonByString } from "@/common/utils"
+import { parseJsonByString } from "@/common/utils";
 
-let listData = parseJsonByString(localStorage.getItem('homeData'), []);
+let listData = parseJsonByString(localStorage.getItem("homeData"), []);
 
-const AreaList = () => {
+const AreaList = (props, ref) => {
 	const [list, setList] = useState(listData);
 	/**
 	 * 点击添加
@@ -28,6 +28,13 @@ const AreaList = () => {
 		const listsData = JSON.stringify(list);
 		localStorage.setItem("homeData", listsData);
 	};
+
+	useImperativeHandle(ref, () => {
+		return {
+			list
+		}
+	});
+
 	return (
 		<div>
 			<ul className={styles.list}>
@@ -65,4 +72,4 @@ const AreaList = () => {
 	);
 };
 
-export default AreaList;
+export default forwardRef(AreaList);

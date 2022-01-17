@@ -1,14 +1,9 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./style.module.scss";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Button } from "antd";
 
 import AreaList from "./component/AreaList";
-// import {
-// 	MenuUnfoldOutlined,
-// 	MenuFoldOutlined,
-// 	UserOutlined,
-// 	VideoCameraOutlined,
-// } from "@ant-design/icons";
+import PageSetting from "./component/PageSetting";
 import "./../../style.scss";
 
 const { Header, Sider, Content } = Layout;
@@ -20,10 +15,21 @@ const useCollapsed = () => {
 };
 
 const HomeManagement = () => {
-	// const [collapsed, setCollapsed] = useState(false);
-	// const toggle = () => setCollapsed(!collapsed);
 	const { collapsed, toggleCollapsed } = useCollapsed();
 	const handleHomePageRedirect = () => (window.location.href = "/index.html");
+	
+	const pageSettingRef = useRef();
+	const areaListRef = useRef();
+
+	const handleSaveBtnClick = () => {
+		const currentList = JSON.stringify(areaListRef.current.list);
+		const title = pageSettingRef.current.title;
+		const description = pageSettingRef.current.description;
+		console.log(currentList);
+		localStorage.setItem('homeData', currentList);
+		localStorage.setItem('title',title);
+		localStorage.setItem('description', description)
+	}
 	return (
 		<Layout>
 			<Sider
@@ -63,7 +69,11 @@ const HomeManagement = () => {
 					)}
 				</Header>
 				<Content className={styles.content}>
-					<AreaList/>
+					<PageSetting ref={pageSettingRef}/>
+					<AreaList ref={areaListRef}/>
+					<div className={styles.save}>
+						 <Button type="primary" onClick={handleSaveBtnClick} >保存区块配置</Button>
+					</div>
 				</Content>
 			</Layout>
 		</Layout>
