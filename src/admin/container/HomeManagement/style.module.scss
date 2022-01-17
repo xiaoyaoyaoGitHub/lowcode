@@ -1,0 +1,19 @@
+// 全局样式
+
+.sidebar {
+	:global(.iconfont) {
+		margin-right: 10px;
+	}
+}
+.header {
+	padding: 0 20px;
+	:global(.iconfont) {
+		margin-left: 10px;
+		color: #fff;
+	}
+}
+.content {
+	margin: 24px 16px;
+	padding: 24px;
+	height: 1000px;
+}
