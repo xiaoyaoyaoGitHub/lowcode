@@ -1,5 +1,5 @@
 import styles from "./style.module.scss";
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 import { Button, Modal, Select } from "antd";
 
 const { Option } = Select;
@@ -17,11 +17,11 @@ const SELECT_OPTIONS = [
 ];
 
 const AreaItem = (props, ref) => {
-	const { index, removeItemFromChildren, item, changeChildrenItem } =
+	const { index, removeItemFromChildren, item } =
 		props || {};
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	// const [schema, setSchema] = useState(item);
-	const [tempSchema, setTempSchema] = useState(item);
+	const [schema, setSchema] = useState(item);
 
 	const showModal = () => {
 		setIsModalVisible(true);
@@ -29,12 +29,12 @@ const AreaItem = (props, ref) => {
 
 	const handleModalOkClick = () => {
 		setIsModalVisible(false);
-		changeChildrenItem(index, tempSchema);
+		// setSchema(schema)
 	};
 
 	const handleModalCancel = () => {
 		setIsModalVisible(false);
-		setTempSchema(item);
+		setSchema(item);
 	};
 
 	const handleChange = (value) => {
@@ -43,8 +43,16 @@ const AreaItem = (props, ref) => {
 			attributes: {},
 			children: [],
 		};
-		setTempSchema(schema);
+		setSchema(schema);
 	};
+
+	useImperativeHandle(ref, () => {
+		return {
+			getSchema:() => {
+				return schema
+			}
+		};
+	});
 
 	return (
 		<li className={styles.item} key={index}>
@@ -68,7 +76,7 @@ const AreaItem = (props, ref) => {
 				onCancel={handleModalCancel}
 			>
 				<Select
-					value={tempSchema.name}
+					value={schema.name}
 					className={styles.selector}
 					onChange={handleChange}
 				>
@@ -85,4 +93,4 @@ const AreaItem = (props, ref) => {
 	);
 };
 
-export default AreaItem;
+export default forwardRef(AreaItem);

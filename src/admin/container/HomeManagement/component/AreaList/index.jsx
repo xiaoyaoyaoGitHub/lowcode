@@ -1,13 +1,26 @@
 import { Button } from "antd";
-import { forwardRef, useState, useImperativeHandle } from "react";
+import {
+	forwardRef,
+	useState,
+	useImperativeHandle,
+	createRef,
+	useMemo,
+} from "react";
 import styles from "./style.module.scss";
 import AreaItem from "./../AreaItem";
 // import { parseJsonByString } from "@/common/utils";
 
 // let listData = parseJsonByString(localStorage.getItem("schema"), []);
 
+let refs = [];
+
 const AreaList = (props, ref) => {
 	const [children, setChildren] = useState(props.children);
+
+	useMemo(() => {
+		refs = children.map((item) => createRef());
+	}, [children]);
+
 	/**
 	 * 点击添加
 	 */
@@ -17,24 +30,15 @@ const AreaList = (props, ref) => {
 		setChildren(newChildren);
 	};
 
-	/**
-	 * 点击删除
-	 */
-	const removeItemFromChildren = (idx) => {
-		const newChildren = [...children];
-		newChildren.splice(idx, 1);
-		setChildren(newChildren);
-	};
-
-	const changeChildrenItem = (index, child) => {
-		const newChildren = [...children];
-		newChildren.splice(index, 1, child);
-		setChildren(newChildren);
-	};
-
 	useImperativeHandle(ref, () => {
 		return {
-			children,
+			getSchema: () => {
+				const schema = []
+				children.map((child, index) => {
+					schema.push(refs[index].current.getSchema())
+				});
+				return schema
+			},
 		};
 	});
 
@@ -47,8 +51,7 @@ const AreaList = (props, ref) => {
 							key={index}
 							item={item}
 							index={index}
-							changeChildrenItem={changeChildrenItem}
-							removeItemFromChildren={removeItemFromChildren}
+							ref={refs[index]}
 						/>
 					);
 				})}

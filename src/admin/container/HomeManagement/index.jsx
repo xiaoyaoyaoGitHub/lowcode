@@ -24,11 +24,11 @@ const HomeManagement = () => {
 	const areaListRef = useRef();
 
 	const handleSaveBtnClick = () => {
-		const { children } = areaListRef.current;
+		const { getSchema } = areaListRef.current;
 		const schema = {
 			name: "Page",
 			attributes: {},
-			children,
+			children:getSchema(),
 		};
 		localStorage.schema = JSON.stringify(schema);
 	};
