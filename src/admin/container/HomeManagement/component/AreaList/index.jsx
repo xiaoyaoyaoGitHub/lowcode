@@ -1,12 +1,12 @@
 import { Button } from "antd";
 import { forwardRef, useState, useImperativeHandle } from "react";
 import styles from "./style.module.scss";
-import { parseJsonByString } from "@/common/utils";
+// import { parseJsonByString } from "@/common/utils";
 
-let listData = parseJsonByString(localStorage.getItem("homeData"), []);
+// let listData = parseJsonByString(localStorage.getItem("schema"), []);
 
 const AreaList = (props, ref) => {
-	const [list, setList] = useState(listData);
+	const [list, setList] = useState(JSON.parse(localStorage.schema)?.children.filter(item => item.name === 'Area') || []);
 	/**
 	 * 点击添加
 	 */

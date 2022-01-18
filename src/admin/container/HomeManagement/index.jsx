@@ -18,18 +18,11 @@ const HomeManagement = () => {
 	const { collapsed, toggleCollapsed } = useCollapsed();
 	const handleHomePageRedirect = () => (window.location.href = "/index.html");
 	
-	const pageSettingRef = useRef();
-	const areaListRef = useRef();
+	const areaListRef = useRef()
 
 	const handleSaveBtnClick = () => {
-		const currentList = JSON.stringify(areaListRef.current.list);
-		const title = pageSettingRef.current.title;
-		const description = pageSettingRef.current.description;
-		console.log(currentList);
-		localStorage.setItem('homeData', currentList);
-		localStorage.setItem('title',title);
-		localStorage.setItem('description', description)
-	}
+
+	};
 	return (
 		<Layout>
 			<Sider
@@ -69,11 +62,13 @@ const HomeManagement = () => {
 					)}
 				</Header>
 				<Content className={styles.content}>
-					<PageSetting ref={pageSettingRef}/>
-					<AreaList ref={areaListRef}/>
-					<div className={styles.save}>
-						 <Button type="primary" onClick={handleSaveBtnClick} >保存区块配置</Button>
-					</div>
+					{/* <PageSetting ref={pageSettingRef} /> */}
+					<AreaList ref={areaListRef} />
+					{/* <div className={styles.save}>
+						<Button type="primary" onClick={handleSaveBtnClick}>
+							保存区块配置
+						</Button>
+					</div> */}
 				</Content>
 			</Layout>
 		</Layout>

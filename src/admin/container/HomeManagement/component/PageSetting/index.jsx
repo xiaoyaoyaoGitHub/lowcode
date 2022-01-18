@@ -3,8 +3,8 @@ import { Input } from "antd";
 import { forwardRef, useState, useImperativeHandle } from "react";
 import TextArea from "antd/lib/input/TextArea";
 const PageSetting = (props, ref) => {
-	const [title, setTitle] = useState(localStorage.title || '');
-	const [description, setDescription] = useState(localStorage.description || '');
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
 	/**
 	 * 标题更改事件
 	 */
