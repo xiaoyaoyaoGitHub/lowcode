@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import styles from "./style.module.scss";
 import { Layout, Menu, Button } from "antd";
-
+import { parseJsonByString } from "@/common/utils";
 import AreaList from "./component/AreaList";
-import PageSetting from "./component/PageSetting";
-import "./../../style.scss";
+// import PageSetting from "./component/PageSetting";
+import "@/admin/style.scss";
 
 const { Header, Sider, Content } = Layout;
 
@@ -14,14 +14,23 @@ const useCollapsed = () => {
 	return { collapsed, toggleCollapsed };
 };
 
+const schema = parseJsonByString(localStorage.schema, {})
+
+
 const HomeManagement = () => {
 	const { collapsed, toggleCollapsed } = useCollapsed();
 	const handleHomePageRedirect = () => (window.location.href = "/index.html");
-	
-	const areaListRef = useRef()
+
+	const areaListRef = useRef();
 
 	const handleSaveBtnClick = () => {
-
+		const { children } = areaListRef.current;
+		const schema = {
+			name: "Page",
+			attributes: {},
+			children,
+		};
+		localStorage.schema = JSON.stringify(schema);
 	};
 	return (
 		<Layout>
@@ -63,12 +72,12 @@ const HomeManagement = () => {
 				</Header>
 				<Content className={styles.content}>
 					{/* <PageSetting ref={pageSettingRef} /> */}
-					<AreaList ref={areaListRef} />
-					{/* <div className={styles.save}>
+					<AreaList ref={areaListRef}  children={schema.children || []}/>
+					<div className={styles.save}>
 						<Button type="primary" onClick={handleSaveBtnClick}>
 							保存区块配置
 						</Button>
-					</div> */}
+					</div>
 				</Content>
 			</Layout>
 		</Layout>

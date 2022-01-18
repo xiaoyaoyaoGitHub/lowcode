@@ -7,9 +7,9 @@ import 'antd/dist/antd.min.css';
 
 ReactDOM.render(
   // 严格模式
-  <React.StrictMode>
-    <HomeManagement/>
-  </React.StrictMode>,
+  // <React.StrictMode>
+    <HomeManagement/>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
 

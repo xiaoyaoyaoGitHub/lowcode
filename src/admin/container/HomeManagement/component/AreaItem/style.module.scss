@@ -1,0 +1,19 @@
+.item {
+    display: flex;
+    background: #fff;
+    margin-bottom: 10px;
+    line-height: 40px;
+    border: 1px dashed #ccc;
+    padding: 0 10px;
+    color: #ccc;
+    &:last-of-type {
+        margin-bottom: 20px;
+    }
+    .content {
+        flex: 1;
+    }
+   
+}
+.selector {
+    width: 120px;
+}
