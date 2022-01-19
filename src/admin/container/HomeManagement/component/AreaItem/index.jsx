@@ -1,5 +1,5 @@
 import styles from "./style.module.scss";
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, forwardRef, useImperativeHandle, useEffect } from "react";
 import { Button, Modal, Select } from "antd";
 
 const { Option } = Select;
@@ -16,17 +16,20 @@ const SELECT_OPTIONS = [
 	},
 ];
 
-// let preSchema = {};
-
 const AreaItem = (props, ref) => {
 	const { index, removeItemFromChildren, item } = props || {};
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [schema, setSchema] = useState(item);
-	const [tempSchema, setTempSchema] = useState(item)
+	const [tempSchema, setTempSchema] = useState(item);
+
+	useEffect(() => {
+		setSchema(item)
+	}, [item])
+
 	// preSchema = item;
 	const showModal = () => {
 		setIsModalVisible(true);
-		setTempSchema(schema) // 根据schema 重置 tempSchema
+		setTempSchema(schema); // 根据schema 重置 tempSchema
 	};
 
 	const handleModalOkClick = () => {
@@ -53,16 +56,16 @@ const AreaItem = (props, ref) => {
 			getSchema: () => {
 				return schema;
 			},
-			resetSchema:() => {
-				setSchema(item)
-			}
+			resetSchema: () => {
+				setSchema(schema);
+			},
 		};
 	});
 
 	return (
 		<li className={styles.item} key={index}>
 			<span onClick={showModal} className={styles.content}>
-				{schema.name || '当前区域内容为空'}
+				{schema.name || "当前区域内容为空"}
 			</span>
 			<span className={styles.btn}>
 				<Button

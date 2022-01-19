@@ -14,11 +14,12 @@ const useCollapsed = () => {
 	return { collapsed, toggleCollapsed };
 };
 
-const schema = parseJsonByString(localStorage.schema, {});
+const initSchema = parseJsonByString(localStorage.schema, {});
 
 const HomeManagement = () => {
 	const { collapsed, toggleCollapsed } = useCollapsed();
 	const handleHomePageRedirect = () => (window.location.href = "/index.html");
+	const [schema, setSchema] = useState(initSchema);
 
 	const areaListRef = useRef();
 
@@ -33,8 +34,8 @@ const HomeManagement = () => {
 	};
 
 	const handleResetBtnClick = () => {
-		const { resetSchema } = areaListRef.current;
-		resetSchema()
+		const newSchema = parseJsonByString(localStorage.schema, {});
+		setSchema(newSchema)
 	}
 
 	return (

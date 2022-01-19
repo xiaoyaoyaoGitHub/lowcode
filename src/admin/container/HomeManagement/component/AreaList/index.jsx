@@ -3,6 +3,7 @@ import {
 	forwardRef,
 	useState,
 	useImperativeHandle,
+	useEffect,
 	createRef,
 	useMemo,
 } from "react";
@@ -16,6 +17,11 @@ let refs = [];
 
 const AreaList = (props, ref) => {
 	const [children, setChildren] = useState(props.children);
+
+	// 监听是否变化
+	useEffect(() => {
+		setChildren(props.children)
+	}, [props.children])
 
 	useMemo(() => {
 		refs = children.map((item) => createRef());
@@ -46,7 +52,7 @@ const AreaList = (props, ref) => {
 				return schema;
 			},
 			resetSchema: () => {
-				setChildren(props.children);
+				setChildren(children);
 				children.forEach((child, index) => {
 					refs[index].current.resetSchema();
 				});
