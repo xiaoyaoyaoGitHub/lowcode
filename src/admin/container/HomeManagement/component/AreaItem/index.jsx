@@ -16,25 +16,26 @@ const SELECT_OPTIONS = [
 	},
 ];
 
-const AreaItem = (props, ref) => {
-	const { index, removeItemFromChildren, item } =
-		props || {};
-	const [isModalVisible, setIsModalVisible] = useState(false);
-	// const [schema, setSchema] = useState(item);
-	const [schema, setSchema] = useState(item);
+// let preSchema = {};
 
+const AreaItem = (props, ref) => {
+	const { index, removeItemFromChildren, item } = props || {};
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [schema, setSchema] = useState(item);
+	const [tempSchema, setTempSchema] = useState(item)
+	// preSchema = item;
 	const showModal = () => {
 		setIsModalVisible(true);
+		setTempSchema(schema) // 根据schema 重置 tempSchema
 	};
 
 	const handleModalOkClick = () => {
 		setIsModalVisible(false);
-		// setSchema(schema)
+		setSchema(tempSchema);
 	};
 
 	const handleModalCancel = () => {
 		setIsModalVisible(false);
-		setSchema(item);
 	};
 
 	const handleChange = (value) => {
@@ -43,13 +44,17 @@ const AreaItem = (props, ref) => {
 			attributes: {},
 			children: [],
 		};
-		setSchema(schema);
+		// select更改是保存临时的选项
+		setTempSchema(schema);
 	};
 
 	useImperativeHandle(ref, () => {
 		return {
-			getSchema:() => {
-				return schema
+			getSchema: () => {
+				return schema;
+			},
+			resetSchema:() => {
+				setSchema(item)
 			}
 		};
 	});
@@ -57,7 +62,7 @@ const AreaItem = (props, ref) => {
 	return (
 		<li className={styles.item} key={index}>
 			<span onClick={showModal} className={styles.content}>
-				{index}当前区块内容为空
+				{schema.name || '当前区域内容为空'}
 			</span>
 			<span className={styles.btn}>
 				<Button
@@ -76,7 +81,7 @@ const AreaItem = (props, ref) => {
 				onCancel={handleModalCancel}
 			>
 				<Select
-					value={schema.name}
+					value={tempSchema.name}
 					className={styles.selector}
 					onChange={handleChange}
 				>

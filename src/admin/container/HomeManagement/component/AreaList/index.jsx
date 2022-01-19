@@ -30,14 +30,26 @@ const AreaList = (props, ref) => {
 		setChildren(newChildren);
 	};
 
+	const removeItemFromChildren = (index) => {
+		const newChildren = [...children];
+		newChildren.splice(index, 1);
+		setChildren(newChildren);
+	};
+
 	useImperativeHandle(ref, () => {
 		return {
 			getSchema: () => {
-				const schema = []
-				children.map((child, index) => {
+				const schema = [];
+				children.map((child, index) =>
 					schema.push(refs[index].current.getSchema())
+				);
+				return schema;
+			},
+			resetSchema: () => {
+				setChildren(props.children);
+				children.forEach((child, index) => {
+					refs[index].current.resetSchema();
 				});
-				return schema
 			},
 		};
 	});
@@ -52,6 +64,7 @@ const AreaList = (props, ref) => {
 							item={item}
 							index={index}
 							ref={refs[index]}
+							removeItemFromChildren={removeItemFromChildren}
 						/>
 					);
 				})}

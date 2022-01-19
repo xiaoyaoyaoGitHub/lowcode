@@ -14,8 +14,7 @@ const useCollapsed = () => {
 	return { collapsed, toggleCollapsed };
 };
 
-const schema = parseJsonByString(localStorage.schema, {})
-
+const schema = parseJsonByString(localStorage.schema, {});
 
 const HomeManagement = () => {
 	const { collapsed, toggleCollapsed } = useCollapsed();
@@ -28,10 +27,16 @@ const HomeManagement = () => {
 		const schema = {
 			name: "Page",
 			attributes: {},
-			children:getSchema(),
+			children: getSchema(),
 		};
 		localStorage.schema = JSON.stringify(schema);
 	};
+
+	const handleResetBtnClick = () => {
+		const { resetSchema } = areaListRef.current;
+		resetSchema()
+	}
+
 	return (
 		<Layout>
 			<Sider
@@ -72,10 +77,16 @@ const HomeManagement = () => {
 				</Header>
 				<Content className={styles.content}>
 					{/* <PageSetting ref={pageSettingRef} /> */}
-					<AreaList ref={areaListRef}  children={schema.children || []}/>
+					<AreaList
+						ref={areaListRef}
+						children={schema.children || []}
+					/>
 					<div className={styles.save}>
 						<Button type="primary" onClick={handleSaveBtnClick}>
 							保存区块配置
+						</Button>
+						<Button className={styles.reset} type="primary" onClick={handleResetBtnClick}>
+							重置区块配置
 						</Button>
 					</div>
 				</Content>
