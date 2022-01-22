@@ -1,15 +1,18 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from "react-redux"
+import store from "./store"
 import HomeManagement from "./container/HomeManagement"
+
+
 import 'normalize.css'
 import 'antd/dist/antd.min.css';
 
 ReactDOM.render(
-  // 严格模式
-  // <React.StrictMode>
-    <HomeManagement/>,
-  // </React.StrictMode>,
+  <Provider store={store}>
+    <HomeManagement />
+  </Provider>,
   document.getElementById('root')
 );
 

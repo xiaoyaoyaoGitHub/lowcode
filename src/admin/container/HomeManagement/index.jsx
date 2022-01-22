@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux"
 import styles from "./style.module.scss";
 import { Layout, Menu, Button } from "antd";
 import { parseJsonByString } from "@/common/utils";
@@ -14,28 +15,29 @@ const useCollapsed = () => {
 	return { collapsed, toggleCollapsed };
 };
 
-const initSchema = parseJsonByString(localStorage.schema, {});
 
 const HomeManagement = () => {
+	const dispatch = useDispatch();
 	const { collapsed, toggleCollapsed } = useCollapsed();
 	const handleHomePageRedirect = () => (window.location.href = "/index.html");
-	const [schema, setSchema] = useState(initSchema);
+	// const [schema, setSchema] = useState(initSchema);
 
-	const areaListRef = useRef();
+	/**
+	 * 读取store中的数据
+	 */
+	const schema = useSelector((state) => state?.homeManagement?.schema)
 
 	const handleSaveBtnClick = () => {
-		const { getSchema } = areaListRef.current;
-		const schema = {
-			name: "Page",
-			attributes: {},
-			children: getSchema(),
-		};
 		localStorage.schema = JSON.stringify(schema);
 	};
-
+	
 	const handleResetBtnClick = () => {
 		const newSchema = parseJsonByString(localStorage.schema, {});
-		setSchema(newSchema)
+		const action = {
+			type:'CHANGE_SCHEMA',
+			value:newSchema
+		}
+		dispatch(action)
 	}
 
 	return (
@@ -79,7 +81,6 @@ const HomeManagement = () => {
 				<Content className={styles.content}>
 					{/* <PageSetting ref={pageSettingRef} /> */}
 					<AreaList
-						ref={areaListRef}
 						children={schema.children || []}
 					/>
 					<div className={styles.save}>

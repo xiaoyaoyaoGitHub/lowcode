@@ -17,14 +17,14 @@ const SELECT_OPTIONS = [
 ];
 
 const AreaItem = (props, ref) => {
-	const { index, removeItemFromChildren, item } = props || {};
+	const { index, removeItemFromChildren, item, changeAreaItem } = props || {};
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [schema, setSchema] = useState(item);
 	const [tempSchema, setTempSchema] = useState(item);
 
 	useEffect(() => {
-		setSchema(item)
-	}, [item])
+		setSchema(item);
+	}, [item]);
 
 	// preSchema = item;
 	const showModal = () => {
@@ -35,6 +35,7 @@ const AreaItem = (props, ref) => {
 	const handleModalOkClick = () => {
 		setIsModalVisible(false);
 		setSchema(tempSchema);
+		changeAreaItem(index, tempSchema)
 	};
 
 	const handleModalCancel = () => {

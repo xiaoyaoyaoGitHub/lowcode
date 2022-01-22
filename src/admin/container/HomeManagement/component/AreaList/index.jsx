@@ -7,6 +7,7 @@ import {
 	createRef,
 	useMemo,
 } from "react";
+import { ReactSortable } from "react-sortablejs";
 import styles from "./style.module.scss";
 import AreaItem from "./../AreaItem";
 // import { parseJsonByString } from "@/common/utils";
@@ -20,8 +21,8 @@ const AreaList = (props, ref) => {
 
 	// 监听是否变化
 	useEffect(() => {
-		setChildren(props.children)
-	}, [props.children])
+		setChildren(props.children);
+	}, [props.children]);
 
 	useMemo(() => {
 		refs = children.map((item) => createRef());
@@ -35,6 +36,13 @@ const AreaList = (props, ref) => {
 		newChildren.push({});
 		setChildren(newChildren);
 	};
+
+
+	const changeAreaItem = (index,item) => {
+		const newChildren = [...children];
+		newChildren.splice(index, 1, item);
+		setChildren(newChildren)
+	}
 
 	const removeItemFromChildren = (index) => {
 		const newChildren = [...children];
@@ -63,17 +71,26 @@ const AreaList = (props, ref) => {
 	return (
 		<div>
 			<ul className={styles.list}>
-				{children.map((item, index) => {
-					return (
-						<AreaItem
-							key={index}
-							item={item}
-							index={index}
-							ref={refs[index]}
-							removeItemFromChildren={removeItemFromChildren}
-						/>
-					);
-				})}
+				<ReactSortable
+					animation={200}
+					delayOnTouchStart={true}
+					delay={2}
+					list={children}
+					setList={setChildren}
+				>
+					{children.map((item, index) => {
+						return (
+							<AreaItem
+								key={index}
+								item={item}
+								index={index}
+								ref={refs[index]}
+								changeAreaItem={changeAreaItem}
+								removeItemFromChildren={removeItemFromChildren}
+							/>
+						);
+					})}
+				</ReactSortable>
 			</ul>
 			<Button type="primary" ghost onClick={addItemToChildren}>
 				新增页面区块
