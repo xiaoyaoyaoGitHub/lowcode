@@ -1,5 +1,7 @@
 import styles from "./style.module.scss";
-import { useState, forwardRef, useImperativeHandle, useEffect } from "react";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getChangeChildAction, getPageDeleteChildAction } from "../../store/action";
 import { Button, Modal, Select } from "antd";
 
 const { Option } = Select;
@@ -16,26 +18,26 @@ const SELECT_OPTIONS = [
 	},
 ];
 
-const AreaItem = (props, ref) => {
-	const { index, removeItemFromChildren, item, changeAreaItem } = props || {};
+const AreaItem = (props) => {
+	const { index } = props || {};
+	const dispatch = useDispatch();
+	const item = useSelector(
+		(state) => state?.homeManagement?.schema?.children[index] || {}
+	);
 	const [isModalVisible, setIsModalVisible] = useState(false);
-	const [schema, setSchema] = useState(item);
 	const [tempSchema, setTempSchema] = useState(item);
-
-	useEffect(() => {
-		setSchema(item);
-	}, [item]);
 
 	// preSchema = item;
 	const showModal = () => {
 		setIsModalVisible(true);
-		setTempSchema(schema); // 根据schema 重置 tempSchema
+		setTempSchema(item); // 根据schema 重置 tempSchema
 	};
 
 	const handleModalOkClick = () => {
 		setIsModalVisible(false);
-		setSchema(tempSchema);
-		changeAreaItem(index, tempSchema)
+		// 改变schema内容 --todo
+		
+		dispatch(getChangeChildAction(index,tempSchema));
 	};
 
 	const handleModalCancel = () => {
@@ -52,25 +54,18 @@ const AreaItem = (props, ref) => {
 		setTempSchema(schema);
 	};
 
-	useImperativeHandle(ref, () => {
-		return {
-			getSchema: () => {
-				return schema;
-			},
-			resetSchema: () => {
-				setSchema(schema);
-			},
-		};
-	});
+	const removeItemFromChildren = () => {
+		dispatch(getPageDeleteChildAction(index))
+	}
 
 	return (
 		<li className={styles.item} key={index}>
 			<span onClick={showModal} className={styles.content}>
-				{schema.name || "当前区域内容为空"}
+				{item.name || "当前区域内容为空"}
 			</span>
 			<span className={styles.btn}>
 				<Button
-					onClick={() => removeItemFromChildren(index)}
+					onClick={removeItemFromChildren}
 					type="dashed"
 					size="small"
 					danger
@@ -102,4 +97,19 @@ const AreaItem = (props, ref) => {
 	);
 };
 
-export default forwardRef(AreaItem);
+export default AreaItem;
+
+// useImperativeHandle(ref, () => {
+// 	return {
+// 		getSchema: () => {
+// 			return schema;
+// 		},
+// 		resetSchema: () => {
+// 			setSchema(schema);
+// 		},
+// 	};
+// });
+
+// useEffect(() => {
+// 	setSchema(item);
+// }, [item]);

@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import { Layout, Menu, Button } from "antd";
 import { parseJsonByString } from "@/common/utils";
 import AreaList from "./component/AreaList";
-import { getChangeSchemaAction } from "@admin/store/action/homeManagement"
+import { getChangeSchemaAction } from "./store/action"
 import "@/admin/style.scss";
 
 const { Header, Sider, Content } = Layout;
