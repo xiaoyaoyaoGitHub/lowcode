@@ -1,5 +1,6 @@
 import { produce } from "immer"
 import { parseJsonByString } from "@/common/utils";
+import { CHANGE_SCHEMA } from "./../constant/homeManagement"
 
 const initialSchema = parseJsonByString(localStorage.schema, {})
 
@@ -10,8 +11,8 @@ const defaultState = {
 
 
 const reducer = (state = defaultState, action) => produce(state, (draft) => {
-    switch(action.type){
-        case 'CHANGE_SCHEMA':
+    switch (action.type) {
+        case CHANGE_SCHEMA:
             draft.schema = action.value
             break;
     }

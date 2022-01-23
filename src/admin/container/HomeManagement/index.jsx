@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./style.module.scss";
 import { Layout, Menu, Button } from "antd";
 import { parseJsonByString } from "@/common/utils";
 import AreaList from "./component/AreaList";
-// import PageSetting from "./component/PageSetting";
+import { getChangeSchemaAction } from "@admin/store/action/homeManagement"
 import "@/admin/style.scss";
 
 const { Header, Sider, Content } = Layout;
@@ -15,30 +15,33 @@ const useCollapsed = () => {
 	return { collapsed, toggleCollapsed };
 };
 
-
-const HomeManagement = () => {
+const useStore = () => {
 	const dispatch = useDispatch();
-	const { collapsed, toggleCollapsed } = useCollapsed();
-	const handleHomePageRedirect = () => (window.location.href = "/index.html");
-	// const [schema, setSchema] = useState(initSchema);
-
 	/**
 	 * 读取store中的数据
 	 */
-	const schema = useSelector((state) => state?.homeManagement?.schema)
+	const schema = useSelector((state) => state?.homeManagement?.schema);
+	const changeSchema = (schema) => {
+		dispatch(getChangeSchemaAction(schema));
+	};
+
+	return { changeSchema, schema };
+};
+
+const HomeManagement = () => {
+	const handleHomePageRedirect = () => (window.location.href = "/index.html");
+
+	const { collapsed, toggleCollapsed } = useCollapsed();
+	const { changeSchema, schema } = useStore();
 
 	const handleSaveBtnClick = () => {
 		localStorage.schema = JSON.stringify(schema);
 	};
-	
+
 	const handleResetBtnClick = () => {
 		const newSchema = parseJsonByString(localStorage.schema, {});
-		const action = {
-			type:'CHANGE_SCHEMA',
-			value:newSchema
-		}
-		dispatch(action)
-	}
+		changeSchema(newSchema);
+	};
 
 	return (
 		<Layout>
@@ -80,14 +83,16 @@ const HomeManagement = () => {
 				</Header>
 				<Content className={styles.content}>
 					{/* <PageSetting ref={pageSettingRef} /> */}
-					<AreaList
-						children={schema.children || []}
-					/>
+					<AreaList children={schema.children || []} />
 					<div className={styles.save}>
 						<Button type="primary" onClick={handleSaveBtnClick}>
 							保存区块配置
 						</Button>
-						<Button className={styles.reset} type="primary" onClick={handleResetBtnClick}>
+						<Button
+							className={styles.reset}
+							type="primary"
+							onClick={handleResetBtnClick}
+						>
 							重置区块配置
 						</Button>
 					</div>
