@@ -1,6 +1,6 @@
-import { produce } from "immer"
+import { produce, original } from "immer"
 import { parseJsonByString } from "@/common/utils";
-import { CHANGE_SCHEMA, ADD_PAGE_CHILDREN, GET_CHANGE_CHILD, DELETE_CHILD } from "./constant"
+import { CHANGE_SCHEMA, ADD_PAGE_CHILDREN, GET_CHANGE_CHILD, DELETE_CHILD, SORTABLE_PAGE_CHILDREN } from "./constant"
 
 const initialSchema = parseJsonByString(localStorage.schema, {})
 
@@ -23,6 +23,9 @@ const reducer = (state = defaultState, action) => produce(state, (draft) => {
             break;
         case DELETE_CHILD:
             draft.schema.children.splice(action.value, 1)
+            break;
+        case SORTABLE_PAGE_CHILDREN:
+            draft.schema.children = action.value
             break;
     }
 })

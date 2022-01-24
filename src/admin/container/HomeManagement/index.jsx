@@ -83,7 +83,7 @@ const HomeManagement = () => {
 				</Header>
 				<Content className={styles.content}>
 					{/* <PageSetting ref={pageSettingRef} /> */}
-					<AreaList children={schema.children || []} />
+					<AreaList/>
 					<div className={styles.save}>
 						<Button type="primary" onClick={handleSaveBtnClick}>
 							保存区块配置

@@ -1,6 +1,8 @@
 import styles from "./style.module.scss";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { SortableElement } from "react-sortable-hoc";
+
 import {
 	getChangeChildAction,
 	getPageDeleteChildAction,
@@ -33,14 +35,13 @@ const useStore = (index) => {
 
 	// 删除
 	const removeItemFromChildren = () => {
-		console.log(`index`,index);
 		dispatch(getPageDeleteChildAction(index));
 	};
 	return { item, changePageChild, removeItemFromChildren };
 };
 
 const AreaItem = (props) => {
-	const { index } = props || {};
+	const { value: index } = props || {};
 	const { item, changePageChild, removeItemFromChildren } = useStore(index);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [tempSchema, setTempSchema] = useState(item);
@@ -109,7 +110,7 @@ const AreaItem = (props) => {
 	);
 };
 
-export default AreaItem;
+export default SortableElement(AreaItem);
 
 // useImperativeHandle(ref, () => {
 // 	return {

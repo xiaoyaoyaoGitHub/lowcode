@@ -1,4 +1,4 @@
-import { CHANGE_SCHEMA, ADD_PAGE_CHILDREN, GET_CHANGE_CHILD, DELETE_CHILD } from "./constant"
+import { CHANGE_SCHEMA, ADD_PAGE_CHILDREN, GET_CHANGE_CHILD, DELETE_CHILD, SORTABLE_PAGE_CHILDREN } from "./constant"
 
 /**
  * 更改schema
@@ -33,9 +33,15 @@ export const getChangeChildAction = (index, child) => {
 }
 
 export const getPageDeleteChildAction = (index) => {
-    console.log(`action`,index);
     return {
         type: DELETE_CHILD,
         value: index
+    }
+}
+
+export const pageSortableChildrenAction = (children) => {
+    return {
+        type: SORTABLE_PAGE_CHILDREN,
+        value: children
     }
 }

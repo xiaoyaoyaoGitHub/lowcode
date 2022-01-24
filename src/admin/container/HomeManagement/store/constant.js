@@ -7,3 +7,5 @@ export const ADD_PAGE_CHILDREN = `${nameSpace}/ADD_PAGE_CHILDREN`
 export const GET_CHANGE_CHILD = `${nameSpace}/GET_CHANGE_CHILD`
 
 export const DELETE_CHILD = `${nameSpace}/DELETE_CHILD`
+
+export const SORTABLE_PAGE_CHILDREN = `${nameSpace}/SORTABLE_PAGE_CHILDREN`
