@@ -13,13 +13,13 @@ const { Option } = Select;
 
 const SELECT_OPTIONS = [
 	{
-		name: "Banner 组件",
+		name: "Banner",
 	},
 	{
-		name: "List 组件",
+		name: "List",
 	},
 	{
-		name: "Footer 组件",
+		name: "Footer",
 	},
 ];
 

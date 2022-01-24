@@ -1,6 +1,6 @@
 import style from "./style.module.scss";
 
-const Courses = () => {
+const List = () => {
 	return (
 		<div className="wrapper">
 			<div className={style.courses}>
@@ -161,4 +161,4 @@ const Courses = () => {
 	);
 };
 
-export default Courses;
+export default List;

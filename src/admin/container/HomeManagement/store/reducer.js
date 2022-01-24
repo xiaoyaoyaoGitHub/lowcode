@@ -2,7 +2,7 @@ import { produce, original } from "immer"
 import { parseJsonByString } from "@/common/utils";
 import { CHANGE_SCHEMA, ADD_PAGE_CHILDREN, GET_CHANGE_CHILD, DELETE_CHILD, SORTABLE_PAGE_CHILDREN } from "./constant"
 
-const initialSchema = parseJsonByString(localStorage.schema, {})
+const initialSchema = parseJsonByString(localStorage.schema, { children: [], attributes: { title: '', description: '' } })
 
 
 const defaultState = {
