@@ -2,6 +2,11 @@ import styles from "./style.module.scss";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { SortableElement } from "react-sortable-hoc";
+import { cloneDeep } from "lodash";
+
+import Banner from "./components/Banner";
+import Footer from "./components/Footer";
+import List from "./components/List";
 
 import {
 	getChangeChildAction,
@@ -40,6 +45,8 @@ const useStore = (index) => {
 	return { item, changePageChild, removeItemFromChildren };
 };
 
+const map = { Footer, Banner, List };
+
 const AreaItem = (props) => {
 	const { value: index } = props || {};
 	const { item, changePageChild, removeItemFromChildren } = useStore(index);
@@ -49,6 +56,7 @@ const AreaItem = (props) => {
 	// preSchema = item;
 	const showModal = () => {
 		setIsModalVisible(true);
+		console.log(item);
 		setTempSchema(item); // 根据schema 重置 tempSchema
 	};
 
@@ -69,6 +77,21 @@ const AreaItem = (props) => {
 		};
 		// select更改是保存临时的选项
 		setTempSchema(schema);
+	};
+
+	const changeTempSchemaPageChildAttribute = (key, value) => {
+		const newTempSchema = cloneDeep(tempSchema);
+		newTempSchema.attributes[key] = value;
+		setTempSchema(newTempSchema);
+	};
+
+	const getComponent = () => {
+		// console.log(tempSchema);
+		const { name } = tempSchema || {};
+		const Component = map[name];
+		return Component ? (
+			<Component {...tempSchema} changeAttribute={changeTempSchemaPageChildAttribute} />
+		) : null;
 	};
 
 	return (
@@ -105,6 +128,7 @@ const AreaItem = (props) => {
 						);
 					})}
 				</Select>
+				{getComponent()}
 			</Modal>
 		</li>
 	);
