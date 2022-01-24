@@ -20,10 +20,9 @@ const reducer = (state = defaultState, action) => produce(state, (draft) => {
             break;
         case GET_CHANGE_CHILD:
             draft.schema.children.splice(action.index, 1, action.value)
-            console.log(draft.schema.children);
             break;
         case DELETE_CHILD:
-            draft.schema.children.splice(action.index, 1)
+            draft.schema.children.splice(action.value, 1)
             break;
     }
 })

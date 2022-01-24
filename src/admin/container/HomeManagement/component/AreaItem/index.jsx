@@ -1,7 +1,10 @@
 import styles from "./style.module.scss";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getChangeChildAction, getPageDeleteChildAction } from "../../store/action";
+import {
+	getChangeChildAction,
+	getPageDeleteChildAction,
+} from "../../store/action";
 import { Button, Modal, Select } from "antd";
 
 const { Option } = Select;
@@ -18,12 +21,27 @@ const SELECT_OPTIONS = [
 	},
 ];
 
-const AreaItem = (props) => {
-	const { index } = props || {};
+const useStore = (index) => {
 	const dispatch = useDispatch();
 	const item = useSelector(
 		(state) => state?.homeManagement?.schema?.children[index] || {}
 	);
+
+	// 更改
+	const changePageChild = (temp) =>
+		dispatch(getChangeChildAction(index, temp));
+
+	// 删除
+	const removeItemFromChildren = () => {
+		console.log(`index`,index);
+		dispatch(getPageDeleteChildAction(index));
+	};
+	return { item, changePageChild, removeItemFromChildren };
+};
+
+const AreaItem = (props) => {
+	const { index } = props || {};
+	const { item, changePageChild, removeItemFromChildren } = useStore(index);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [tempSchema, setTempSchema] = useState(item);
 
@@ -35,9 +53,7 @@ const AreaItem = (props) => {
 
 	const handleModalOkClick = () => {
 		setIsModalVisible(false);
-		// 改变schema内容 --todo
-		
-		dispatch(getChangeChildAction(index,tempSchema));
+		changePageChild(tempSchema);
 	};
 
 	const handleModalCancel = () => {
@@ -53,10 +69,6 @@ const AreaItem = (props) => {
 		// select更改是保存临时的选项
 		setTempSchema(schema);
 	};
-
-	const removeItemFromChildren = () => {
-		dispatch(getPageDeleteChildAction(index))
-	}
 
 	return (
 		<li className={styles.item} key={index}>

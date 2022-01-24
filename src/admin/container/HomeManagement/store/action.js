@@ -33,6 +33,7 @@ export const getChangeChildAction = (index, child) => {
 }
 
 export const getPageDeleteChildAction = (index) => {
+    console.log(`action`,index);
     return {
         type: DELETE_CHILD,
         value: index
