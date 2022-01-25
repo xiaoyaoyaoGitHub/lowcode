@@ -79,9 +79,17 @@ const AreaItem = (props) => {
 		setTempSchema(schema);
 	};
 
-	const changeTempSchemaPageChildAttribute = (key, value) => {
+	const changeTempSchemaPageChildAttributes = (kObject) => {
 		const newTempSchema = cloneDeep(tempSchema);
-		newTempSchema.attributes[key] = value;
+		for (let k in kObject) {
+			newTempSchema.attributes[k] = kObject[k];
+		}
+		setTempSchema(newTempSchema);
+	};
+
+	const changeTempSchemaPageChildren = (children) => {
+		const newTempSchema = cloneDeep(tempSchema);
+		newTempSchema.children = children;
 		setTempSchema(newTempSchema);
 	};
 
@@ -90,7 +98,11 @@ const AreaItem = (props) => {
 		const { name } = tempSchema || {};
 		const Component = map[name];
 		return Component ? (
-			<Component {...tempSchema} changeAttribute={changeTempSchemaPageChildAttribute} />
+			<Component
+				{...tempSchema}
+				changeAttributes={changeTempSchemaPageChildAttributes}
+				changeChildren={changeTempSchemaPageChildren}
+			/>
 		) : null;
 	};
 

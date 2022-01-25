@@ -1,12 +1,5 @@
 .wrapper {
-	.row {
-		display: flex;
-		margin: 15px 0;
-		.label {
-			width: 70px;
-		}
-		.content {
-			flex: 1;
-		}
-	}
+	margin-top: 15px;
+	border-top: 1px dashed #ccc;
+	align-items: center;
 }
