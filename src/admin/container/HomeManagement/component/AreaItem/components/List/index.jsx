@@ -1,6 +1,6 @@
 import styles from "./style.module.scss";
 import commonStyles from "../style.module.scss";
-import { Input, Switch, Button } from "antd";
+import { Input, Button } from "antd";
 const List = (props) => {
 	const { children = [], changeChildren } = props || {};
 
@@ -11,7 +11,16 @@ const List = (props) => {
 
 	const addItemToChildren = () => {
 		const newChildren = [...children];
-		newChildren.push({});
+		newChildren.push({
+			name: "Item",
+			attributes: {
+				title: "",
+				description: "",
+				imageUrl: "",
+				link: "",
+			},
+			children: [],
+		});
 		changeChildren(newChildren);
 	};
 
@@ -31,6 +40,8 @@ const List = (props) => {
 				新增页面
 			</Button>
 			{children.map((item, index) => {
+				const { title, description, imageUrl, link } =
+					item.attributes || {};
 				return (
 					<div key={index} className={styles.area}>
 						<div
@@ -44,7 +55,7 @@ const List = (props) => {
 							<Input
 								className={styles.content}
 								placeholder="请输入标题"
-								value={item.title}
+								value={title}
 								onChange={handleTitleChange}
 								type="text"
 							/>
@@ -54,7 +65,7 @@ const List = (props) => {
 							<Input
 								className={styles.content}
 								placeholder="请输入描述"
-								value={item.desc}
+								value={description}
 								onChange={handleTitleChange}
 								type="text"
 							/>
@@ -64,7 +75,7 @@ const List = (props) => {
 							<Input
 								className={styles.content}
 								placeholder="请输入图片地址"
-								value={item.imgUrl}
+								value={imageUrl}
 								onChange={handleTitleChange}
 								type="text"
 							/>
@@ -74,7 +85,7 @@ const List = (props) => {
 							<Input
 								className={styles.content}
 								placeholder="请输入跳转链接"
-								value={item.link}
+								value={link}
 								onChange={handleTitleChange}
 								type="text"
 							/>
