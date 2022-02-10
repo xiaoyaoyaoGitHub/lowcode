@@ -21,3 +21,17 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
+// 全局样式
+
+.sidebar {
+	:global(.iconfont) {
+		margin-right: 10px;
+	}
+}
+.header {
+	padding: 0 20px;
+	:global(.iconfont) {
+		margin-left: 10px;
+		color: #fff;
+	}
+}

@@ -2,6 +2,7 @@ import styles from "./style.module.scss";
 import commonStyles from "../style.module.scss";
 import { Input, Button } from "antd";
 import TextArea from "antd/lib/input/TextArea";
+import { cloneDeep } from "lodash";
 const Footer = (props) => {
 	const {
 		attributes = {},
@@ -53,11 +54,16 @@ const Footer = (props) => {
 	};
 	// 修改区块内容
 	const changeChildrenItem = (index, key, value) => {
+		console.log(children);
 		const item = children[index];
-		const copyItem = Object.create(item);
-		copyItem[key] = value;
+		// console.log(item);
+		const copyItem = cloneDeep(item);
+		if (!copyItem.attributes) copyItem.attributes = {};
+		copyItem.attributes[key] = value;
+		// copyItem[key] = value;
+		console.log(copyItem);
 		children.splice(index, 1, copyItem);
-		changeChildren(children)
+		changeChildren(children);
 	};
 	return (
 		<div className={commonStyles.wrapper}>
@@ -90,7 +96,7 @@ const Footer = (props) => {
 				新增区块
 			</Button>
 			{children.map((item, index) => {
-				const { title, link } = item || {};
+				const { title, link } = item.attributes || {};
 				return (
 					<div key={index} className={styles.area}>
 						<div
