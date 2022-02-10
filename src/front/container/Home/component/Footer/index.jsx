@@ -1,6 +1,8 @@
 import styles from "./style.module.scss";
 
-const Footer = () => {
+const Footer = (props) => {
+	const { schema } = props || {};
+	const { copyright, record } = schema.attributes || {};
 	return (
 		<div className="wrapper">
 			<div className={styles.footer}>
@@ -11,6 +13,9 @@ const Footer = () => {
 						</a>
 					</li>
 				</ul>
+				<div className={styles.copyrights}>
+				{copyright} {record}
+				</div>
 			</div>
 		</div>
 	);

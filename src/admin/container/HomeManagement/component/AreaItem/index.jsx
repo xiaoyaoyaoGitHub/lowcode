@@ -13,6 +13,7 @@ import {
 	getPageDeleteChildAction,
 } from "../../store/action";
 import { Button, Modal, Select } from "antd";
+import { useEffect } from "react";
 
 const { Option } = Select;
 
@@ -51,7 +52,11 @@ const AreaItem = (props) => {
 	const { value: index } = props || {};
 	const { item, changePageChild, removeItemFromChildren } = useStore(index);
 	const [isModalVisible, setIsModalVisible] = useState(false);
-	const [tempSchema, setTempSchema] = useState(item);
+	const [tempSchema, setTempSchema] = useState(cloneDeep(item));
+
+	useEffect(() => {
+		setTempSchema(cloneDeep(item))
+	}, [item])
 
 	// preSchema = item;
 	const showModal = () => {

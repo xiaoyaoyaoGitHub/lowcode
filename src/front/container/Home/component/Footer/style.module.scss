@@ -1,13 +1,23 @@
 .footer {
-    height: 60px;
+    padding: 10px 10px;
     .list {
         list-style: none;
+        margin: 0;
+        padding: 0;
         .item {
-            line-height: 60px;
+            line-height: 28px;
+            font-size: 14px;
             .link {
-                color: cornflowerblue;
+                color: #545c63;
                 text-decoration: none;
             }
         }
+    }
+    .copyrights {
+        font-size: 12px;
+        margin-top: 8px;
+        color: #93999f;
+        line-height: 24px;
+        font-weight: 300;
     }
 }
